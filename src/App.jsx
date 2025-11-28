@@ -419,7 +419,7 @@ const HomePage = () => {
                 genre="Open Format / Pop Edits / House" 
                 duration="45:00"
                 // Updated first mix with actual file and link
-                audioSrc="/Audio/HouseMixDemo.mp3"
+                audioSrc="https://assets.thirdwitt.com/HouseMixDemo.mp3"
                 link="https://soundcloud.com/thirdwitt-364055906/pop-rap-house-remix-set-1?si=4c4098a86d2d4defbf3ba3485987a257&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
             />
             <SoundCloudPlayer 
