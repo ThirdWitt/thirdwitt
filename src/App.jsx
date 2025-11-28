@@ -318,13 +318,12 @@ const HomePage = () => {
         </div>
 
         {/* HERO CONTENT */}
-        {/* FIX: Removed px-4 to allow full width */}
         <div className="relative z-20 w-full flex flex-col items-center">
             
             {/* Main Logo Image */}
-            <div className="mb-6 animate-float relative z-20 w-full flex justify-center -mt-4 md:-mt-12">
+            {/* FIX: Increased negative margin for desktop to -mt-48 (was -mt-12) */}
+            <div className="mb-6 animate-float relative z-20 w-full flex justify-center -mt-4 md:-mt-48">
                 {/* DESKTOP LOGO (Horizontal) */}
-                {/* FIX: Changed to w-screen to force full width, removed drop-shadow */}
                 <img 
                     src="/ChromeLogo.png" 
                     alt="THIRDWITT" 
@@ -336,11 +335,11 @@ const HomePage = () => {
                 />
 
                 {/* MOBILE LOGO (Vertical) */}
-                 {/* FIX: Changed to w-screen to force full width, removed drop-shadow */}
+                 {/* FIX: Added scale-125 to force it larger than screen width (zooms in 25%) */}
                 <img 
                     src="/ChromeLogoVertical.png" 
                     alt="THIRDWITT" 
-                    className="block md:hidden w-screen h-auto object-contain"
+                    className="block md:hidden w-screen h-auto object-contain scale-125"
                     onError={(e) => {
                         e.target.style.display = 'none';
                     }}
@@ -363,7 +362,6 @@ const HomePage = () => {
             
             <div className={`mt-4 flex items-center justify-center gap-3 transition-opacity duration-1000 delay-700 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
                <div className="h-px w-8 bg-zinc-700"></div>
-               {/* FIX: Removed bg-black/30 and backdrop-blur-sm to remove background */}
                <p className="text-zinc-500 text-xs font-mono uppercase tracking-widest px-3 py-1 rounded-sm">
                   Philadelphia / NYC / Worldwide
                </p>
