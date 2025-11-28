@@ -318,27 +318,29 @@ const HomePage = () => {
         </div>
 
         {/* HERO CONTENT */}
-        <div className="relative z-20 w-full px-4 flex flex-col items-center">
+        {/* FIX: Removed px-4 to allow full width */}
+        <div className="relative z-20 w-full flex flex-col items-center">
             
             {/* Main Logo Image */}
             <div className="mb-6 animate-float relative z-20 w-full flex justify-center -mt-4 md:-mt-12">
-                {/* DESKTOP LOGO (Horizontal) - Hidden on Mobile */}
+                {/* DESKTOP LOGO (Horizontal) */}
+                {/* FIX: Changed to w-screen to force full width, removed drop-shadow */}
                 <img 
                     src="/ChromeLogo.png" 
                     alt="THIRDWITT" 
-                    className="hidden md:block w-full max-w-[95vw] md:max-w-[3200px] h-auto object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]"
+                    className="hidden md:block w-screen h-auto object-contain"
                     onError={(e) => {
                         e.target.style.display = 'none';
                         e.target.parentElement.innerHTML = `<h1 class="text-7xl md:text-9xl font-black tracking-tighter text-white">THIRDWITT</h1>`;
                     }}
                 />
 
-                {/* MOBILE LOGO (Vertical) - Hidden on Desktop */}
+                {/* MOBILE LOGO (Vertical) */}
+                 {/* FIX: Changed to w-screen to force full width, removed drop-shadow */}
                 <img 
                     src="/ChromeLogoVertical.png" 
                     alt="THIRDWITT" 
-                    // Size increased for mobile impact
-                    className="block md:hidden w-full max-w-[90vw] h-auto object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]"
+                    className="block md:hidden w-screen h-auto object-contain"
                     onError={(e) => {
                         e.target.style.display = 'none';
                     }}
@@ -347,7 +349,6 @@ const HomePage = () => {
         </div>
 
         {/* ANIMATED REVEAL TEXT - MOVED TO BOTTOM */}
-        {/* FIX: Changed md:bottom-24 to md:bottom-40 to shift it up on laptops */}
         <div className="absolute bottom-32 md:bottom-40 left-0 w-full z-30 flex flex-col items-center justify-center">
             
             {/* SCANNER BAR EFFECT */}
@@ -362,8 +363,8 @@ const HomePage = () => {
             
             <div className={`mt-4 flex items-center justify-center gap-3 transition-opacity duration-1000 delay-700 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
                <div className="h-px w-8 bg-zinc-700"></div>
-               {/* FIX: Changed bg-black/50 to bg-black/30 to decrease opacity */}
-               <p className="text-zinc-500 text-xs font-mono uppercase tracking-widest bg-black/30 px-3 py-1 rounded-sm backdrop-blur-sm">
+               {/* FIX: Removed bg-black/30 and backdrop-blur-sm to remove background */}
+               <p className="text-zinc-500 text-xs font-mono uppercase tracking-widest px-3 py-1 rounded-sm">
                   Philadelphia / NYC / Worldwide
                </p>
                <div className="h-px w-8 bg-zinc-700"></div>
