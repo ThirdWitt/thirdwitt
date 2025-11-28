@@ -284,38 +284,44 @@ const SoundCloudPlayer = ({ title, genre, audioSrc, link, duration: durationLabe
 // 3. Home Page
 const HomePage = () => {
   const [isLoaded, setIsLoaded] = useState(false);
+  const videoRef = useRef(null);
 
   useEffect(() => {
     setIsLoaded(true);
+    // Force Video Play on mount (fixes some mobile autoplay issues)
+    if (videoRef.current) {
+      videoRef.current.play().catch(e => console.log("Header video play failed", e));
+    }
   }, []);
 
   return (
     <div className="space-y-24 pb-24 relative z-10">
       
       {/* HEADER - VIDEO BACKGROUND & CHROME TEXT (Scrolls over fixed bg) */}
-{/* Change pt-48 to pt-20. Ensure justify-start is there. */}
-        <header className="flex flex-col items-center justify-start pt-20 space-y-8 text-center min-h-[80vh] relative overflow-hidden z-20">        {/* PRIMARY VIDEO BACKGROUND (For Header Only) */}
+      <header className="flex flex-col items-center pt-20 text-center min-h-[85vh] relative overflow-hidden z-20">
+        
+        {/* PRIMARY VIDEO BACKGROUND (For Header Only) */}
         <div className="absolute inset-0 z-0 bg-black">
           <video 
+              ref={videoRef}
               autoPlay 
               loop 
               muted 
               playsInline
-              /* FIX: Added 'object-center' here */
-              className="absolute inset-0 w-full h-full object-cover object-center opacity-100">
+              className="absolute inset-0 w-full h-full object-cover object-center opacity-100"
+          >
               <source src="/BgVideo.mp4" type="video/mp4" />
           </video>
             
             {/* BOTTOM FADE MASK - Blends banner into the rest of the site */}
-            <div className="absolute bottom-0 left-0 w-full h-48 bg-gradient-to-t from-black via-black/60 to-transparent z-10 pointer-events-none"></div>
+            <div className="absolute bottom-0 left-0 w-full h-64 bg-gradient-to-t from-black via-black/80 to-transparent z-10 pointer-events-none"></div>
         </div>
 
         {/* HERO CONTENT */}
-        {/* Added -mt-32 to shift content UP, ensuring logo and text are visible */}
-        <div className="relative z-20 w-full px-4 flex flex-col items-center pb-20">
+        <div className="relative z-20 w-full px-4 flex flex-col items-center">
             
-            {/* Main Logo Image (Replaces Text) */}
-            <div className="mb-6 animate-float relative z-20 w-full flex justify-center -mt-12 md:-mt-40">
+            {/* Main Logo Image */}
+            <div className="mb-6 animate-float relative z-20 w-full flex justify-center -mt-4 md:-mt-12">
                 <img 
                     src="/ChromeLogo.png" 
                     alt="THIRDWITT" 
@@ -323,32 +329,31 @@ const HomePage = () => {
                     className="w-full max-w-[95vw] md:max-w-[3200px] h-auto object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]"
                     onError={(e) => {
                         e.target.style.display = 'none';
-                        // Fallback to text if image fails to load
                         e.target.parentElement.innerHTML = `<h1 class="text-7xl md:text-9xl font-black tracking-tighter text-white">THIRDWITT</h1>`;
                     }}
                 />
             </div>
+        </div>
 
-            {/* ANIMATED REVEAL TEXT */}
-            {/* FIX: Changed -mt-40 to -mt-4 md:-mt-40. 
-            This stops the text from crashing into the logo on mobile. */}
-            <div className="relative -mt-4 md:-mt-40 z-30">
-                <div className="relative overflow-hidden px-6 py-3">
-                    {/* Monochrome Gradient Text */}
-                    <p className={`text-transparent bg-clip-text bg-gradient-to-r from-gray-400 via-white to-gray-400 font-mono font-bold text-base md:text-2xl uppercase tracking-[0.2em] transition-opacity duration-100 delay-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
-                      House / Pop / R&B / Open Format
-                    </p>
-                    {/* Monochrome Wiping Bar */}
-                    <div className={`absolute inset-0 bg-gradient-to-r from-gray-500 via-white to-gray-500 z-30 ${isLoaded ? 'animate-wipe-reveal' : 'translate-x-[-100%]'}`}></div>
-                </div>
+        {/* ANIMATED REVEAL TEXT - MOVED TO BOTTOM */}
+        <div className="absolute bottom-32 md:bottom-24 left-0 w-full z-30 flex flex-col items-center justify-center">
+            
+            {/* SCANNER BAR EFFECT */}
+            <div className="relative overflow-hidden px-6 py-3">
+                <p className={`text-transparent bg-clip-text bg-gradient-to-r from-gray-400 via-white to-gray-400 font-mono font-bold text-base md:text-2xl uppercase tracking-[0.2em] transition-opacity duration-700 delay-300 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
+                  House / Pop / R&B / Open Format
+                </p>
                 
-                <div className={`mt-6 flex items-center justify-center gap-3 transition-opacity duration-1000 delay-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
-                   <div className="h-px w-8 bg-zinc-700"></div>
-                   <p className="text-zinc-500 text-xs font-mono uppercase tracking-widest">
-                      Philadelphia / NYC / Worldwide
-                   </p>
-                   <div className="h-px w-8 bg-zinc-700"></div>
-                </div>
+                {/* Scanner Bar (Vertical Line) */}
+                <div className={`absolute top-0 bottom-0 w-2 md:w-4 bg-white/80 blur-[4px] shadow-[0_0_20px_white] z-40 ${isLoaded ? 'animate-scan-reveal' : 'left-0 opacity-0'}`}></div>
+            </div>
+            
+            <div className={`mt-4 flex items-center justify-center gap-3 transition-opacity duration-1000 delay-700 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
+               <div className="h-px w-8 bg-zinc-700"></div>
+               <p className="text-zinc-500 text-xs font-mono uppercase tracking-widest bg-black/50 px-3 py-1 rounded-sm backdrop-blur-sm">
+                  Philadelphia / NYC / Worldwide
+               </p>
+               <div className="h-px w-8 bg-zinc-700"></div>
             </div>
         </div>
       </header>
@@ -448,7 +453,7 @@ const HomePage = () => {
           </div>
         </section>
 
-        {/* LIVE GALLERY - HIDDEN BUT KEPT IN CODE */}
+        {/* LIVE GALLERY - RESTORED (HIDDEN BUT KEPT IN CODE) */}
         {/* <section className="space-y-8 relative z-10">
            <div className="relative">
              <div className="absolute -top-8 -left-8 text-white/10 font-black text-9xl select-none -z-10">LIVE</div>
@@ -518,15 +523,16 @@ const PricingPage = () => {
       
       {/* Header */}
       <div className="text-center mb-20 space-y-4">
-        <h1 className="text-5xl md:text-7xl font-black text-white uppercase italic tracking-tighter leading-snug">
+        {/* INCREASED FONT SIZE HERE */}
+        <h1 className="text-6xl md:text-8xl font-black text-white uppercase italic tracking-tighter leading-snug">
           Rates{' '} 
           <span className="relative inline-block">
             {/* Monochrome Gradient */}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-400 to-white relative z-10">
               &
             </span>
-            {/* Monochrome Underline */}
-            <span className="absolute bottom-0 left-0 w-full h-2 bg-gradient-to-r from-gray-400 to-white translate-y-2"></span>
+            {/* Monochrome Underline - FIXED SPACING */}
+            <span className="absolute bottom-0 left-0 w-full h-2 bg-gradient-to-r from-gray-400 to-white translate-y-0"></span>
           </span>{' '}
           Services
         </h1>
@@ -644,11 +650,19 @@ const Footer = () => (
 
 const App = () => {
   const [page, setPage] = useState('home');
+  const globalVideoRef = useRef(null);
 
   // Auto-scroll to top on page change
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [page]);
+
+  // Force global background video to play on mount
+  useEffect(() => {
+    if(globalVideoRef.current) {
+        globalVideoRef.current.play().catch(e => console.log("Global BG play failed", e));
+    }
+  }, []);
 
   return (
     <div className="min-h-screen bg-transparent text-white font-sans selection:bg-gray-400 selection:text-black flex flex-col overflow-x-hidden relative">
@@ -658,6 +672,16 @@ const App = () => {
         /* GLOBAL BACKGROUND COLOR FIX - PREVENTS WHITE OVERSCROLL */
         body {
           background-color: black;
+        }
+
+        /* NEW SCANNER ANIMATION */
+        @keyframes scan-reveal {
+          0% { left: 0%; opacity: 1; }
+          90% { opacity: 1; }
+          100% { left: 100%; opacity: 0; }
+        }
+        .animate-scan-reveal {
+          animation: scan-reveal 1.5s cubic-bezier(0.77, 0, 0.175, 1) forwards;
         }
 
         @keyframes wipe-reveal {
@@ -693,14 +717,13 @@ const App = () => {
       `}</style>
 
       {/* GLOBAL FIXED STATIC BACKGROUND VIDEO (Sits behind everything) */}
-      {/* GLOBAL FIXED STATIC BACKGROUND VIDEO */}
         <div className="fixed inset-0 z-0 bg-black">
           <video 
+              ref={globalVideoRef}
               autoPlay 
               loop 
               muted 
               playsInline
-              /* FIX: Added 'object-center' here */
               className="absolute inset-0 w-full h-full object-cover object-center opacity-100"
           >
               <source src="/BgVideo2.mp4" type="video/mp4" />
