@@ -296,15 +296,15 @@ const HomePage = () => {
 {/* Change pt-48 to pt-20. Ensure justify-start is there. */}
         <header className="flex flex-col items-center justify-start pt-20 space-y-8 text-center min-h-[80vh] relative overflow-hidden z-20">        {/* PRIMARY VIDEO BACKGROUND (For Header Only) */}
         <div className="absolute inset-0 z-0 bg-black">
-            <video 
-                autoPlay 
-                loop 
-                muted 
-                playsInline
-                className="absolute inset-0 w-full h-full object-cover opacity-100"
-            >
-                <source src="/BgVideo.mp4" type="video/mp4" />
-            </video>
+          <video 
+              autoPlay 
+              loop 
+              muted 
+              playsInline
+              /* FIX: Added 'object-center' here */
+              className="absolute inset-0 w-full h-full object-cover object-center opacity-100">
+              <source src="/BgVideo.mp4" type="video/mp4" />
+          </video>
             
             {/* BOTTOM FADE MASK - Blends banner into the rest of the site */}
             <div className="absolute bottom-0 left-0 w-full h-48 bg-gradient-to-t from-black via-black/60 to-transparent z-10 pointer-events-none"></div>
@@ -330,7 +330,9 @@ const HomePage = () => {
             </div>
 
             {/* ANIMATED REVEAL TEXT */}
-            <div className="relative -mt-40 z-30">
+            {/* FIX: Changed -mt-40 to -mt-4 md:-mt-40. 
+            This stops the text from crashing into the logo on mobile. */}
+            <div className="relative -mt-4 md:-mt-40 z-30">
                 <div className="relative overflow-hidden px-6 py-3">
                     {/* Monochrome Gradient Text */}
                     <p className={`text-transparent bg-clip-text bg-gradient-to-r from-gray-400 via-white to-gray-400 font-mono font-bold text-base md:text-2xl uppercase tracking-[0.2em] transition-opacity duration-100 delay-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
@@ -516,7 +518,7 @@ const PricingPage = () => {
       
       {/* Header */}
       <div className="text-center mb-20 space-y-4">
-        <h1 className="text-5xl md:text-7xl font-black text-white uppercase italic tracking-tighter">
+        <h1 className="text-5xl md:text-7xl font-black text-white uppercase italic tracking-tighter leading-snug">
           Rates{' '} 
           <span className="relative inline-block">
             {/* Monochrome Gradient */}
@@ -691,18 +693,19 @@ const App = () => {
       `}</style>
 
       {/* GLOBAL FIXED STATIC BACKGROUND VIDEO (Sits behind everything) */}
-      <div className="fixed inset-0 z-0 bg-black">
-         <video 
-            autoPlay 
-            loop 
-            muted 
-            playsInline
-            className="absolute inset-0 w-full h-full object-cover opacity-100"
-        >
-            {/* SECONDARY STATIC BACKGROUND VIDEO: Change this path to your file */}
-            <source src="/BgVideo2.mp4" type="video/mp4" />
-        </video>
-      </div>
+      {/* GLOBAL FIXED STATIC BACKGROUND VIDEO */}
+        <div className="fixed inset-0 z-0 bg-black">
+          <video 
+              autoPlay 
+              loop 
+              muted 
+              playsInline
+              /* FIX: Added 'object-center' here */
+              className="absolute inset-0 w-full h-full object-cover object-center opacity-100"
+          >
+              <source src="/BgVideo2.mp4" type="video/mp4" />
+          </video>
+        </div>
 
       {/* OVERSCROLL BLOCKER - Sits between static bg and header content */}
       <div className="fixed top-0 left-0 w-full h-[50vh] bg-black z-10 pointer-events-none"></div>
